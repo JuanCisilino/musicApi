@@ -1,0 +1,19 @@
+2021-09-22 13:23:35 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO USERS (USERNAME, PASSWORD, PREMIUM, NAME, LAST_NAME, BALANCE) VALUES
+('Frosty', '123456', TRUE, 'Juan', 'Cisilino', 300.00),
+('andres', '123456', FALSE, 'Andres', 'Guzman', 0.00),
+('Chiqui', '123456', TRUE, 'Christian', 'Montefusco', 300.00)
+INSERT[*] INTO USERS (USERNAME, PASSWORD, PREMIUM, NAME, LAST_NAME, BALANCE),
+('Flor', '123456', TRUE, 'Florencia', 'Rinaldi', 300.00)"
+Syntax error in SQL statement "INSERT INTO USERS (USERNAME, PASSWORD, PREMIUM, NAME, LAST_NAME, BALANCE) VALUES
+('Frosty', '123456', TRUE, 'Juan', 'Cisilino', 300.00),
+('andres', '123456', FALSE, 'Andres', 'Guzman', 0.00),
+('Chiqui', '123456', TRUE, 'Christian', 'Montefusco', 300.00)
+INSERT[*] INTO USERS (USERNAME, PASSWORD, PREMIUM, NAME, LAST_NAME, BALANCE),
+('Flor', '123456', TRUE, 'Florencia', 'Rinaldi', 300.00)"; SQL statement:
+INSERT INTO users (username, password, premium, name, last_name, balance) VALUES
+('Frosty', '123456', true, 'Juan', 'Cisilino', 300.00),
+('andres', '123456', false, 'Andres', 'Guzman', 0.00),
+('Chiqui', '123456', true, 'Christian', 'Montefusco', 300.00)
+INSERT INTO users (username, password, premium, name, last_name, balance),
+('Flor', '123456', true, 'Florencia', 'Rinaldi', 300.00) [42000-200]
