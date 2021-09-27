@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.music.app.servicio.usuarios.models.entity.Usuario;
 import com.music.app.servicio.usuarios.services.IUsuarioService;
@@ -27,36 +28,49 @@ public class UsuarioController {
 		return service.findAll();
 	}
 	
-	@GetMapping("/ver/{id}")
-	public Usuario detalle(@PathVariable Long id) {
-		return service.findById(id);
-	}
-	
-	@GetMapping("/ver_user/{username}")
+	@GetMapping("/ver/{username}")
 	public Usuario detalleUser(@PathVariable String username) {
-		return service.findByUsername(username);
+		Usuario usuario = service.findByUsername(username);
+		if (usuario == null) {
+			throw setException("No existe el usuario");
+		} else {
+			return usuario;
+		}
 	}
 	
 	@PostMapping("/crear")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario crear(@RequestBody Usuario usuario) {
 		checkBalance(usuario);
-		return service.save(usuario);
+		Usuario usuarioCheck = service.findByUsername(usuario.getUsername());
+		if (usuarioCheck != null) {
+			throw setException("El usuario ya existe");
+		} else {
+			return service.save(usuario);
+		}
 	}
 	
 	@DeleteMapping("/eliminar/{username}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void eliminar(@PathVariable String username) {
-		service.deleteByUsername(username);
+		Usuario usuario = service.findByUsername(username);
+		if (usuario == null) {
+			throw setException("No existe el usuario");
+		} else {
+			service.deleteByUsername(username);;
+		}
 	}
 	
 	@PutMapping("/cargar/{username}/{monto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario cargar(@PathVariable String username, @PathVariable Double monto) {
 		Usuario usuarioDb = service.findByUsername(username);
-		checkBalance(usuarioDb);
-		usuarioDb.setBalance(usuarioDb.getBalance() + monto);
-		return service.save(usuarioDb);
+		if (usuarioDb == null) {
+			throw setException("No existe el usuario");
+		} else {
+			usuarioDb.setBalance(usuarioDb.getBalance() + monto);
+			return service.save(usuarioDb);
+		}
 	}
 	
 	private void checkBalance(Usuario usuario) {
@@ -65,19 +79,31 @@ public class UsuarioController {
 		}
 	}
 	
+	private ResponseStatusException setException(String message) {
+		return new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+	}
+	
 	@PutMapping("/cobrar/{username}/{monto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario cobrar(@PathVariable String username, @PathVariable Double monto) {
 		Usuario usuarioDb = service.findByUsername(username);
-		usuarioDb.setBalance(usuarioDb.getBalance() - monto);
-		return service.save(usuarioDb);
+		if (usuarioDb == null) {
+			throw setException("No existe el usuario");
+		} else {
+			usuarioDb.setBalance(usuarioDb.getBalance() - monto);
+			return service.save(usuarioDb);
+		}
 	}
 	
 	@PutMapping("/agregar_track/{username}/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario agregarTrack(@RequestBody Usuario usuario, @PathVariable String username, @PathVariable String id) {
 		Usuario usuarioDb = service.findByUsername(username);
-		usuarioDb.addPlaylist(id);
-		return service.save(usuarioDb);
+		if (usuarioDb == null) {
+			throw setException("No existe el usuario");
+		} else {
+			usuarioDb.addPlaylist(id);
+			return service.save(usuarioDb);
+		}
 	}
 }

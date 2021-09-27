@@ -26,32 +26,27 @@ public class PlaylistController {
 	@Autowired
 	private IPlaylistService service;
 	
-	@GetMapping("/listar_usuarios")
+	@GetMapping("/usuarios")
 	public List<Usuario> listar(){
 		return service.findAll();
 	}
 	
-	@GetMapping("/ver_usuario/{id}")
-	public Usuario detalle(@PathVariable Long id) {
-		return service.findById(id);
-	}
-	
-	@GetMapping("/ver/{username}")
+	@GetMapping("/usuario/{username}")
 	public Usuario detalleUsuario(@PathVariable String username) {
 		return service.findByUsername(username);
 	}
 	
-	@GetMapping("/listar_tracks")
+	@GetMapping("/tracks")
 	public List<Track> listarTracks(){
 		return service.findAllTracks();
 	}
 	
-	@GetMapping("/ver_track/{id}")
+	@GetMapping("/track/{id}")
 	public Track detalleTrack(@PathVariable Long id) {
 		return service.findTrackById(id);
 	}
 	
-	@GetMapping("/ver_playlist/{username}")
+	@GetMapping("/playlist/{username}")
 	public ArrayList<Track> listarPlaylist(@PathVariable String username) {
 		ArrayList<Track> playList = new ArrayList<Track>();
 		Usuario usuario = service.findByUsername(username);

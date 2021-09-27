@@ -7,7 +7,7 @@ import com.music.app.balance.models.Usuario;
 public interface IBalanceService {
 
 	public List<Usuario> findAll();
-	public Usuario findById(Long id);
+	
 	public Usuario findByUsername(String username);
 	
 	public Usuario save(Usuario usuario);

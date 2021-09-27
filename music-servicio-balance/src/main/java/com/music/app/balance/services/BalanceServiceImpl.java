@@ -29,14 +29,7 @@ public class BalanceServiceImpl implements IBalanceService {
 	public Usuario findByUsername(String username) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("username", username.toString());
-		return restTemplate.getForObject("http://servicio-usuarios/ver_user/{username}", Usuario.class, pathVariables);
-	}
-
-	@Override
-	public Usuario findById(Long id) {
-		Map<String, String> pathVariables = new HashMap<String, String>();
-		pathVariables.put("id", id.toString());
-		return restTemplate.getForObject("http://servicio-usuarios/ver/{id}", Usuario.class, pathVariables);
+		return restTemplate.getForObject("http://servicio-usuarios/ver/{username}", Usuario.class, pathVariables);
 	}
 
 	@Override

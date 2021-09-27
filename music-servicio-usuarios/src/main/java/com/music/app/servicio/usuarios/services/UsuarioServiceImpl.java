@@ -22,11 +22,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public Usuario findById(Long id) {
-		return usuarioRepo.findById(id).orElse(null);
-	}
-
-	@Override
 	public Usuario findByUsername(String username) {
 		if (username == null) {
 			return null;
