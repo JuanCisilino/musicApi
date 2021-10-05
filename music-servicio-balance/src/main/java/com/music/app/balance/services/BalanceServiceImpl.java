@@ -22,20 +22,20 @@ public class BalanceServiceImpl implements IBalanceService {
 	
 	@Override
 	public List<Usuario> findAll() {
-		return Arrays.asList(restTemplate.getForObject("http://servicio-usuarios/listar", Usuario[].class));
+		return Arrays.asList(restTemplate.getForObject("http://servicio-usuarios/usuarios", Usuario[].class));
 	}
 	
 	@Override
 	public Usuario findByUsername(String username) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("username", username.toString());
-		return restTemplate.getForObject("http://servicio-usuarios/ver/{username}", Usuario.class, pathVariables);
+		return restTemplate.getForObject("http://servicio-usuarios/usuarios/{username}", Usuario.class, pathVariables);
 	}
 
 	@Override
 	public Usuario save(Usuario usuario) {
 		HttpEntity<Usuario> body = new HttpEntity<Usuario>(usuario);
-		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/crear", HttpMethod.POST, body, Usuario.class);
+		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/usuarios", HttpMethod.POST, body, Usuario.class);
 		return response.getBody();
 	}
 

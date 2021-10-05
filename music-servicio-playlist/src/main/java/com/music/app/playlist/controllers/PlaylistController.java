@@ -31,7 +31,7 @@ public class PlaylistController {
 		return service.findAll();
 	}
 	
-	@GetMapping("/usuario/{username}")
+	@GetMapping("/usuarios/{username}")
 	public Usuario detalleUsuario(@PathVariable String username) {
 		return service.findByUsername(username);
 	}
@@ -41,7 +41,7 @@ public class PlaylistController {
 		return service.findAllTracks();
 	}
 	
-	@GetMapping("/track/{id}")
+	@GetMapping("/tracks/{id}")
 	public Track detalleTrack(@PathVariable Long id) {
 		return service.findTrackById(id);
 	}
@@ -116,19 +116,19 @@ public class PlaylistController {
         return lista.get(rand.nextInt(lista.size()));
     }
 	
-	@PostMapping("/crear_usuario")
+	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario crearUsuario(@RequestBody Usuario usuario) {
 		return service.save(usuario);
 	}
 	
-	@DeleteMapping("/eliminar_usuario/{username}")
+	@DeleteMapping("/usuarios/{username}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void eliminarUsuario(@PathVariable String username) {
 		service.delete(username);
 	}
 	
-	@PutMapping("comprar_track/{username}/{trackId}")
+	@PutMapping("/comprar/{username}/{trackId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario comprarTrack(@PathVariable String username, @PathVariable Long trackId) {
 		Track selectedTrack = service.findTrackById(trackId);
@@ -142,7 +142,7 @@ public class PlaylistController {
 		return service.findByUsername(username);
 	}
 	
-	@PutMapping("cargar/{username}/{monto}")
+	@PutMapping("/cargar/{username}/{monto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario cargar(@PathVariable String username, @PathVariable Double monto) {
 		return service.cargar(username, monto);

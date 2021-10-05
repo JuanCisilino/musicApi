@@ -18,12 +18,12 @@ public class TrackController {
 	@Autowired
 	private ITrackService trackService;
 	
-	@GetMapping("/listar")
+	@GetMapping("/tracks")
 	public List<Track> listar(){
 		return trackService.findAll();
 	}
 	
-	@GetMapping("/ver/{id}")
+	@GetMapping("/tracks/{id}")
 	public Track detalle(@PathVariable Long id) {
 		Track track = trackService.findById(id);
 		if (track == null) {

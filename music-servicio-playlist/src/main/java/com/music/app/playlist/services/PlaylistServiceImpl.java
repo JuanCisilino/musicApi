@@ -24,19 +24,19 @@ public class PlaylistServiceImpl implements IPlaylistService{
 	
 	@Override
 	public List<Usuario> findAll() {
-		return Arrays.asList(restTemplate.getForObject("http://servicio-usuarios/listar", Usuario[].class));
+		return Arrays.asList(restTemplate.getForObject("http://servicio-usuarios/usuarios", Usuario[].class));
 	}
 
 	@Override
 	public Usuario findByUsername(String username) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("username", username);
-		return restTemplate.getForObject("http://servicio-usuarios/ver/{username}", Usuario.class, pathVariables);
+		return restTemplate.getForObject("http://servicio-usuarios/usuarios/{username}", Usuario.class, pathVariables);
 	}
 
 	@Override
 	public List<Track> findAllTracks() {
-		List<Track> lista = Arrays.asList(restTemplate.getForObject("http://servicio-track/listar", Track[].class));
+		List<Track> lista = Arrays.asList(restTemplate.getForObject("http://servicio-track/tracks", Track[].class));
 		lista.forEach(track -> track.setCaracteristcs());
 		return lista;
 	}
@@ -45,13 +45,13 @@ public class PlaylistServiceImpl implements IPlaylistService{
 	public Track findTrackById(Long id) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("id", id.toString());
-		return restTemplate.getForObject("http://servicio-track/ver/{id}", Track.class, pathVariables);
+		return restTemplate.getForObject("http://servicio-track/tracks/{id}", Track.class, pathVariables);
 	}
 
 	@Override
 	public Usuario save(Usuario usuario) {
 		HttpEntity<Usuario> body = new HttpEntity<Usuario>(usuario);
-		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/crear", HttpMethod.POST, body, Usuario.class);
+		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/usuarios", HttpMethod.POST, body, Usuario.class);
 		return response.getBody();
 	}
 
@@ -59,7 +59,7 @@ public class PlaylistServiceImpl implements IPlaylistService{
 	public void delete(String username) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("username", username.toString());
-		restTemplate.delete("http://servicio-usuarios/eliminar/{username}", pathVariables);
+		restTemplate.delete("http://servicio-usuarios/usuarios/{username}", pathVariables);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class PlaylistServiceImpl implements IPlaylistService{
 		pathVariables.put("username", username.toString());
 		pathVariables.put("id", id.toString());
 		HttpEntity<Usuario> body = new HttpEntity<Usuario>(findByUsername(username));
-		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/agregar_track/{username}/{id}", HttpMethod.PUT, body, Usuario.class, pathVariables);
+		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/usuarios/{username}/{id}", HttpMethod.PUT, body, Usuario.class, pathVariables);
 		return response.getBody();
 	}
 

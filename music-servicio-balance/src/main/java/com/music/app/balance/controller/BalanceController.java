@@ -22,7 +22,7 @@ public class BalanceController {
 	@Autowired
 	private IBalanceService usuarioService;
 	
-	@GetMapping("/listar")
+	@GetMapping("/")
 	public List<Usuario> listar(){
 		return cbFactory.create("detalle")
 				.run(() -> usuarioService.findAll(), error -> metodoAlternativoLista());

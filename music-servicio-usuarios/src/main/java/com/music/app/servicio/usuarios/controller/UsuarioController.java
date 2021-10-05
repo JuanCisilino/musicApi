@@ -23,12 +23,12 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService service;
 	
-	@GetMapping("/listar")
+	@GetMapping("/usuarios")
 	public List<Usuario> listar(){
 		return service.findAll();
 	}
 	
-	@GetMapping("/ver/{username}")
+	@GetMapping("/usuarios/{username}")
 	public Usuario detalleUser(@PathVariable String username) {
 		Usuario usuario = service.findByUsername(username);
 		if (usuario == null) {
@@ -38,7 +38,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping("/crear")
+	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario crear(@RequestBody Usuario usuario) {
 		checkBalance(usuario);
@@ -50,7 +50,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@DeleteMapping("/eliminar/{username}")
+	@DeleteMapping("/usuarios/{username}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void eliminar(@PathVariable String username) {
 		Usuario usuario = service.findByUsername(username);
@@ -95,7 +95,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@PutMapping("/agregar_track/{username}/{id}")
+	@PutMapping("/usuarios/{username}/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario agregarTrack(@RequestBody Usuario usuario, @PathVariable String username, @PathVariable String id) {
 		Usuario usuarioDb = service.findByUsername(username);
