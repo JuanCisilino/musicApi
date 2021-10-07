@@ -48,73 +48,13 @@ public class PlaylistController {
 	
 	@GetMapping("/playlist/{username}")
 	public ArrayList<Track> listarPlaylist(@PathVariable String username) {
-		ArrayList<Track> playList = new ArrayList<Track>();
-		Usuario usuario = service.findByUsername(username);
-		if (!usuario.getPlaylist().isEmpty()) { 
-			return getPlaylist(usuario, playList);
-		} else {
-			return playList;
-		}
-	}
-	
-	private ArrayList<Track> getPlaylist(Usuario usuario, ArrayList<Track> playList){
-		List<Track> tracks = listarTracks();
-		tracks.forEach(track -> checkList(track, usuario, playList));
-		return playList;
-	}
-	
-	private void checkList(Track track, Usuario usuario, List<Track> playList) {
-		if (usuario.getPlaylist().contains(track.getId().toString()) && !track.getIsBoring()) { 
-			playList.add(track);
-		}
+		return service.getPlaylist(username);
 	}
 	
 	@GetMapping("/recomendar/{animo}")
 	public Track recomendar(@PathVariable String animo) {
-		if (animo.toUpperCase().equals("ENOJADO")) {
-			return getByCategory("PUNK");
-		} else if (animo.toUpperCase().equals("MELANCOLICO")) {
-			return getOldRandomTrack();
-		} else if (animo.toUpperCase().equals("CONTENTO")) {
-			return getByCategory("REGGAETON");
-		} else {
-			return new Track();
-		}
+		return service.recomend(animo);
 	}
-
-	private Track getOldRandomTrack() {
-		List<Track> lista = listarTracks().stream().collect(Collectors.toList());
-		ArrayList<Track> playList = new ArrayList<Track>();
-		lista.forEach(track -> filterListByRelease(track, playList));
-		return getRandomElement(playList);
-	}
-
-	private Track getByCategory(String category) {
-		List<Track> lista = listarTracks().stream().collect(Collectors.toList());
-		ArrayList<Track> playList = new ArrayList<Track>();
-		lista.forEach(track -> filterListByCategory(category,track, playList));
-		return getRandomElement(playList);
-	}
-
-	private void filterListByCategory(String category, Track track, ArrayList<Track> playList) {
-		if (track.getCategory().equals(category)) {
-			playList.add(track);
-		}
-	}
-	
-	private void filterListByRelease(Track track, ArrayList<Track> playList) {
-		if (track.getIsOld() == true) {
-			playList.add(track);
-		}
-	}
-	
-	public Track getRandomElement(ArrayList<Track> lista) {
-        Random rand = new Random();
-        if (lista.isEmpty()) {
-        	return new Track();
-        }
-        return lista.get(rand.nextInt(lista.size()));
-    }
 	
 	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -131,15 +71,7 @@ public class PlaylistController {
 	@PutMapping("/comprar/{username}/{trackId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario comprarTrack(@PathVariable String username, @PathVariable Long trackId) {
-		Track selectedTrack = service.findTrackById(trackId);
-		Usuario usuario = service.findByUsername(username);
-		if (usuario.getPremium() == true) {
-			service.agregarTrack(username, selectedTrack.getId().toString());
-		} else if (usuario.getBalance() > selectedTrack.getPrice()) {
-			service.comprarTrack(username, selectedTrack.getPrice());
-			service.agregarTrack(username, selectedTrack.getId().toString());
-		}
-		return service.findByUsername(username);
+		return service.comprarTrack(username, trackId);
 	}
 	
 	@PutMapping("/cargar/{username}/{monto}")

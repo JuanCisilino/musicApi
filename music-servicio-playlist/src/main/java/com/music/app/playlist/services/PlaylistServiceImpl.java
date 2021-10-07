@@ -1,9 +1,12 @@
 package com.music.app.playlist.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -62,8 +65,7 @@ public class PlaylistServiceImpl implements IPlaylistService{
 		restTemplate.delete("http://servicio-usuarios/usuarios/{username}", pathVariables);
 	}
 
-	@Override
-	public void comprarTrack(String username, Double monto) {
+	public void comprar(String username, Double monto) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("username", username.toString());
 		pathVariables.put("monto", monto.toString());
@@ -90,5 +92,88 @@ public class PlaylistServiceImpl implements IPlaylistService{
 		ResponseEntity<Usuario> response = restTemplate.exchange("http://servicio-usuarios/cargar/{username}/{monto}", HttpMethod.PUT, body, Usuario.class, pathVariables);
 		return response.getBody();
 	}
+	
+	@Override
+	public Usuario comprarTrack(String username, Long trackId) {
+		Track selectedTrack = findTrackById(trackId);
+		Usuario usuario = findByUsername(username);
+		if (usuario.getPremium() == true) {
+			agregarTrack(username, selectedTrack.getId().toString());
+		} else if (usuario.getBalance() > selectedTrack.getPrice()) {
+			comprar(username, selectedTrack.getPrice());
+			agregarTrack(username, selectedTrack.getId().toString());
+		}
+		return findByUsername(username);
+	}
+
+	@Override
+	public ArrayList<Track> getPlaylist(String username) {
+		ArrayList<Track> playList = new ArrayList<Track>();
+		Usuario usuario = findByUsername(username);
+		if (!usuario.getPlaylist().isEmpty()) { 
+			return getPlaylist(usuario, playList);
+		} else {
+			return playList;
+		}
+	}
+	
+	private ArrayList<Track> getPlaylist(Usuario usuario, ArrayList<Track> playList){
+		List<Track> tracks = findAllTracks();
+		tracks.forEach(track -> checkList(track, usuario, playList));
+		return playList;
+	}
+	
+	private void checkList(Track track, Usuario usuario, List<Track> playList) {
+		if (usuario.getPlaylist().contains(track.getId().toString()) && !track.getIsBoring()) { 
+			playList.add(track);
+		}
+	}
+
+	@Override
+	public Track recomend(String animo) {
+		if (animo.toUpperCase().equals("ENOJADO")) {
+			return getByCategory("PUNK");
+		} else if (animo.toUpperCase().equals("MELANCOLICO")) {
+			return getOldRandomTrack();
+		} else if (animo.toUpperCase().equals("CONTENTO")) {
+			return getByCategory("REGGAETON");
+		} else {
+			return new Track();
+		}
+	}
+
+	private Track getOldRandomTrack() {
+		List<Track> lista = findAllTracks();
+		ArrayList<Track> playList = new ArrayList<Track>();
+		lista.forEach(track -> filterListByRelease(track, playList));
+		return getRandomElement(playList);
+	}
+
+	private Track getByCategory(String category) {
+		List<Track> lista = findAllTracks();
+		ArrayList<Track> playList = new ArrayList<Track>();
+		lista.forEach(track -> filterListByCategory(category,track, playList));
+		return getRandomElement(playList);
+	}
+
+	private void filterListByCategory(String category, Track track, ArrayList<Track> playList) {
+		if (track.getCategory().equals(category)) {
+			playList.add(track);
+		}
+	}
+	
+	private void filterListByRelease(Track track, ArrayList<Track> playList) {
+		if (track.getIsOld() == true) {
+			playList.add(track);
+		}
+	}
+	
+	public Track getRandomElement(ArrayList<Track> lista) {
+        Random rand = new Random();
+        if (lista.isEmpty()) {
+        	return new Track();
+        }
+        return lista.get(rand.nextInt(lista.size()));
+    }
 	
 }
