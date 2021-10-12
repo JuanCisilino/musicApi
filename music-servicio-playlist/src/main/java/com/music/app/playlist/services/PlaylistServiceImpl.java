@@ -48,7 +48,9 @@ public class PlaylistServiceImpl implements IPlaylistService{
 	public Track findTrackById(Long id) {
 		Map<String, String> pathVariables = new HashMap<String, String>();
 		pathVariables.put("id", id.toString());
-		return restTemplate.getForObject("http://servicio-track/tracks/{id}", Track.class, pathVariables);
+		Track selectedTrack = restTemplate.getForObject("http://servicio-track/tracks/{id}", Track.class, pathVariables);
+		selectedTrack.setCaracteristcs();
+		return selectedTrack;
 	}
 
 	@Override

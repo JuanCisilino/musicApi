@@ -1,0 +1,287 @@
+{
+	"info": {
+		"_postman_id": "e575e1d0-bce5-4c03-9d31-f6d957494f0d",
+		"name": "Music Api EndPoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crear usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Batman\",\r\n    \"password\": \"123456\",\r\n    \"premium\": true,\r\n    \"name\": \"Bruno\",\r\n    \"lastName\": \"Diaz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recomendar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/recomendar/:animo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"recomendar",
+						":animo"
+					],
+					"variable": [
+						{
+							"key": "animo",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar tracks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/tracks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"tracks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar usuario",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/usuarios/:username",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"usuarios",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "playlist de usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/playlist/:username",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"playlist",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ver usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/usuarios/:username",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"usuarios",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ver track",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/tracks/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"tracks",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "comprar track",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/comprar/:username/:trackId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"comprar",
+						":username",
+						":trackId"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": null
+						},
+						{
+							"key": "trackId",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cargar credito",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/musicApi/player/cargar/:username/:montoDouble",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"musicApi",
+						"player",
+						"cargar",
+						":username",
+						":montoDouble"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": null
+						},
+						{
+							"key": "montoDouble",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
