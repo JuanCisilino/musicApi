@@ -101,7 +101,7 @@ public class PlaylistServiceImpl implements IPlaylistService{
 		Usuario usuario = findByUsername(username);
 		if (usuario.getPremium() == true) {
 			agregarTrack(username, selectedTrack.getId().toString());
-		} else if (usuario.getBalance() > selectedTrack.getPrice()) {
+		} else if (usuario.getBalance() >= selectedTrack.getPrice()) {
 			comprar(username, selectedTrack.getPrice());
 			agregarTrack(username, selectedTrack.getId().toString());
 		}
