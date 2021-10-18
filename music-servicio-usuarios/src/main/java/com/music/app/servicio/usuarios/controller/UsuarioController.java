@@ -102,8 +102,12 @@ public class UsuarioController {
 		if (usuarioDb == null) {
 			throw setException("No existe el usuario");
 		} else {
-			usuarioDb.addPlaylist(id);
-			return service.save(usuarioDb);
+			if (usuarioDb.getPlaylist().contains(id)) {
+				throw setException("Este track ya esta en la playlist");
+			} else {
+				usuarioDb.addPlaylist(id);
+				return service.save(usuarioDb);
+			}	
 		}
 	}
 }
